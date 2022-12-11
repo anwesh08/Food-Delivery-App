@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import Loader from './Loader'
 
 import { motion } from 'framer-motion';
 
 import { MdAttachMoney, MdCloudUpload, MdDelete, MdFastfood, MdFoodBank } from 'react-icons/md';
 
+import Loader from './Loader'
 import { categories } from '../Utils/data';
 import { actionType } from '../Context/reducer';
 import { useStateValue } from '../Context/StateProvider';
+import { getAllFoodItems, saveItem } from '../Utils/firebaseFunctions';
 
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../firebase.config';
-import { getAllFoodItems, saveItem } from '../Utils/firebaseFunctions';
 
 const CreateContainer = () => {
 
@@ -102,8 +102,8 @@ const CreateContainer = () => {
         setTimeout(() => {
           setFields(false)
         }, 4000)
-        clearData()
-        fetchData()
+        clearData() // Clearing the from
+        fetchData() // Fetching data from firebase
       }
     } catch (error) {
       console.log(error)
