@@ -6,10 +6,12 @@ import { motion } from 'framer-motion';
 import { MdAttachMoney, MdCloudUpload, MdDelete, MdFastfood, MdFoodBank } from 'react-icons/md';
 
 import { categories } from '../Utils/data';
+import { actionType } from '../Context/reducer';
+import { useStateValue } from '../Context/StateProvider';
 
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { storage } from '../firebase.config';
-import { saveItem } from '../Utils/firebaseFunctions';
+import { getAllFoodItems, saveItem } from '../Utils/firebaseFunctions';
 
 const CreateContainer = () => {
 
@@ -22,6 +24,7 @@ const CreateContainer = () => {
   const [alertStatus, setAlertStatus] = useState("danger");
   const [msg, setMsg] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [{ foodItems }, dispatch] = useStateValue();
 
   const uploadImage = (e) => {
     setIsLoading(true)
@@ -100,6 +103,7 @@ const CreateContainer = () => {
           setFields(false)
         }, 4000)
         clearData()
+        fetchData()
       }
     } catch (error) {
       console.log(error)
@@ -119,6 +123,15 @@ const CreateContainer = () => {
     setCalories("");
     setPrice("");
     setCategory("");
+  }
+
+  const fetchData = async () => {
+    await getAllFoodItems().then((data) => {
+      dispatch({
+        type: actionType.SET_FOOD_ITEMS,
+        foodItems: data
+      })
+    })
   }
 
   return (
