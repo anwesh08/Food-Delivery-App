@@ -11,7 +11,7 @@ import { useStateValue } from '../Context/StateProvider'
 const MenuContainer = () => {
    const [filterValue, setFilterValue] = useState("chicken")
 
-   const [{ foodItems, cartShow }, dispatch] = useStateValue()
+   const [{ foodItems }, dispatch] = useStateValue()
 
    return (
       <section className='w-full my-6' id='menu'>
